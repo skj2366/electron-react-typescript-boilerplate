@@ -2,6 +2,8 @@
   "name": "react-ingest-manager",
   "version": "0.1.0",
   "private": true,
+  "main": "./public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -10,6 +12,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -17,10 +20,21 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start2": "react-scripts start",
+    "build2": "react-scripts build",
+    "test2": "react-scripts test",
+    "eject2": "react-scripts eject",
+    "electron2": "wait-on http://localhost:3000 && electron .",
+    "compile-main2": "tsc ./src/main/main.ts --outdir ./compile-main && tsc ./src/main/preload.ts --outdir ./compile-main",
+    "dev2": "concurrently \"yarn start\" \"yarn electron\"",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "start": "concurrently \"cross-env NODE_ENV=development BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "yarn react-build && electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always"
+    
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +53,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^27.0.4",
+    "electron-builder": "^24.6.4",
+    "wait-on": "^7.1.0"
   }
 }
